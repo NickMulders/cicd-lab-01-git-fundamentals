@@ -1,6 +1,11 @@
 # Block B — Everyday workflows: add, commit, branch, merge, rebase
 
-**Duration:** ~90 minutes (20 min demo, 15 min we-do, 35 min you-do, 10 min debrief, ~10 min buffer)
+**Duration:** ~90 minutes 
+* 20 min demo
+* 15 min we-do
+* 35 min you-do
+* 10 min debrief
+* ~10 min buffer
 
 ## Goal
 

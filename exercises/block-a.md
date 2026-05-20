@@ -49,7 +49,7 @@ The instructor walks the `sample-app/` history live:
 5. Sketch the commit → tree → blob graph on the board.
 6. Show `git log --graph --decorate --oneline --all` — the same graph, in commit form.
 
-Key points: commits point to a *single* tree; trees point to blobs; blobs are *just* content (no filename). The filename lives in the tree entry.
+Key points: commits point to a *single* tree; trees point to blobs and trees; blobs are *just* content (no filename). The filename lives in the tree entry.
 
 ## We do (15 min)
 
