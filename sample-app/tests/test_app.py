@@ -7,3 +7,7 @@ def test_greet_uses_name():
 
 def test_greet_default_world():
     assert greet("world") == "Hello, world!"
+
+
+def test_greet_shout():
+    assert greet("Ada", shout=True) == "HELLO, ADA!"
