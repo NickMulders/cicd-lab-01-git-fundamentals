@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Sanity-check the Block A solo exercise.
+# Sanity-check the lab's spelunking + focused-commit step (You-do Phase 1).
 #
 # Verifies (best-effort):
-#   - The Block A solo work is complete, with no uncommitted changes.
-#   - sample-app/README.md contains a "lab participant" line added in You-do step 4.
+#   - Phase 1's focused commit is in place, with no uncommitted changes.
+#   - sample-app/README.md contains a "lab participant" line added in You-do Phase 1 step 4.
 #   - HEAD's commit touched only sample-app/README.md (no incidental changes).
 #
 # Exit codes: 0 = all green, 1 = something to fix.
@@ -28,7 +28,7 @@ fi
 if grep -qi "lab participant" sample-app/README.md; then
   say_pass "sample-app/README.md mentions a lab participant"
 else
-  say_fail "sample-app/README.md is missing a 'lab participant' line — see You-do step 4"
+  say_fail "sample-app/README.md is missing a 'lab participant' line — see You-do Phase 1 step 4"
 fi
 
 # 3. HEAD should touch only sample-app/README.md.
@@ -48,6 +48,6 @@ if [ $fail -eq 0 ]; then
   exit 0
 else
   echo
-  echo "Some checks failed. Revisit the steps in exercises/block-a.md."
+  echo "Some checks failed. Revisit the You-do Phase 1 steps in exercises/lab.md."
   exit 1
 fi

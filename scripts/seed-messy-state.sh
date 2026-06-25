@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Seed a deterministic dirty working tree for Block B.
+# Seed a deterministic dirty working tree for the lab's workflow phase.
 #
 # Drops three unrelated edits into sample-app/:
 #   1. sample-app/app.py        — add a docstring to greet()
@@ -27,11 +27,11 @@ from pathlib import Path
 
 p = Path("sample-app/app.py")
 text = p.read_text()
-needle = "def greet(name: str) -> str:\n    return"
+needle = "def greet(name: str, shout: bool = False) -> str:\n    message ="
 replacement = (
-    "def greet(name: str) -> str:\n"
+    "def greet(name: str, shout: bool = False) -> str:\n"
     "    \"\"\"Return a friendly greeting for `name`.\"\"\"\n"
-    "    return"
+    "    message ="
 )
 if needle not in text:
     raise SystemExit("seed: could not find greet() signature in app.py")

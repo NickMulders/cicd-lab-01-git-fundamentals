@@ -1,6 +1,6 @@
 # Git's object model — cheat sheet
 
-Reference reading for Block A's second segment. Keep this open while you work through the You-do.
+Reference reading for the lab's object-model segment. Keep this open while you work through the You-do.
 
 ## The four object types
 

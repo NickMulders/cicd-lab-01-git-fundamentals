@@ -1,6 +1,6 @@
 # Why version control matters
 
-Reference reading for Block A's first segment. If you missed it in class or want to re-read after the session, this is the backstop.
+Reference reading for the lab's "Why version control matters" segment. If you missed it in class or want to re-read after the session, this is the backstop.
 
 ## The pre-VC world
 
