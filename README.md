@@ -23,12 +23,13 @@ pytest sample-app/tests
 
 ## Lab structure
 
-One continuous ~3-hour lab that interleaves Git's object model with everyday workflows, so the model becomes the lens for every command you run. The full walk-through lives in [`exercises/lab.md`](./exercises/lab.md):
+One continuous ~3-hour lab (09:00–12:00) that interleaves Git's object model with everyday workflows, so the model becomes the lens for every command you run. The full walk-through lives in [`exercises/lab.md`](./exercises/lab.md):
 
-- Why version control matters
-- The object model (commit/tree/blob) — hands-on the workflow
-- Everyday workflows: `add -p`, `switch`, branch, merge (fast-forward vs `--no-ff`), rebase, and recovery
-- A solo spelunk-then-build exercise, plus optional stretch challenges
+- **Introduction** — welcome to the series and how the labs work
+- **Teaching** — why version control matters, the basic command vocabulary (incl. `.gitignore`), and the object model (commit/tree/blob)
+- **I-do** — the instructor live-codes the moves: `add`/`commit`, `switch`, branch, merge (fast-forward vs `--no-ff`), rebase, and recovery
+- **You-do (breakout rooms)** — a guided warm-up, then a solo spelunk-then-build exercise, plus optional stretch challenges
+- **Wrap-up & questions**
 
 ## Repo layout
 

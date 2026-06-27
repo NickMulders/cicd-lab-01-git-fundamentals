@@ -20,11 +20,12 @@ the lens for every workflow move you make.
 You should leave this lab able to:
 
 - Understanding the basic commands of git, `git init`, `git add`, `git commit`, `git push`, `git pull`, `git status`, `git branch`, `git checkout`, `git merge`, `git cherry-pick`
+- Understand what `.gitignore` does and why Git tracks everything by default
 - Actually understand what git is doing under the hood, how are blobs linked to commits, how every commit is a snapshot
 - Choose between **merge** (fast-forward vs `--no-ff`) and **rebase** deliberately, and explain the tradeoffs
 - Recover from "oh no I committed to the wrong branch"
 
-## Introduction — welcome to the series (15 min)
+## Introduction — welcome to the series (30 min)
 
 Because this is the first class, the instructor opens with the bigger picture before we touch Git.
 
@@ -36,7 +37,12 @@ Because this is the first class, the instructor opens with the bigger picture be
 6. **AI Agents** Ofcourse, AI will be able to probably one-shot these labs, but we would challenge you to do this class as much as possible without it, so you actually get the fundamentals, and then you'll be able to steer AI much better when building this out for yourself.
 
 
-## Pre-flight
+## Teaching: Introductions to git (45 min)
+
+The instructor teaches the foundations. This is the conceptual half — we *do* the moves in the
+I-do that follows.
+
+### Setup (do this first)
 
 ```bash
 git switch main
@@ -48,40 +54,73 @@ You should see a `sample-app/` directory with several commits already in its his
 `git log --oneline` and confirm you see at least five commits, and that the seed script is
 available.
 
-## I do — Why version control matters (20 min)
-
-The instructor walks through:
+### Why version control matters
 
 1. **Pre-VC pain.** `FINAL_v2_actual_REAL.zip`, lost work, no audit trail. Anyone who's been in industry long enough has a story.
-2. **What a Version Control System (VCS) gives you.** History, blame, branching, safe undo. Show a single `git blame` on `sample-app/app.py` to make the point.
+2. **What a Version Control System (VCS) gives you.** History, blame, branching, safe undo. 
 3. **Centralized vs distributed.** Why Git won. Why "every clone is a full backup" matters when the central server is down.
 4. **Live folder-vs-repo contrast.** `mkdir scratch && cd scratch && echo hi > a.txt`. Then the same with `git init`. What's tracked? What isn't? What happens when you change `a.txt`?
 
-This segment ends with a one-sentence prompt the group answers around the room: *"What's a version-control disaster you've personally lived through, or watched somebody else live through?"*
+Reference reading: [`docs/why-version-control.md`](../docs/why-version-control.md).
 
-## I do — The object model, hands-on the workflow (30 min)
+### The basic command vocabulary
+A one-line tour of the commands you'll use every day — anchored to the folder-vs-repo demo above
+so each one is concrete, not a glossary entry:
 
-The instructor live-codes, narrating the object graph at every step. The thread: *every
-workflow command is really a manipulation of commits, trees, and blobs.*
+- `git init` — turn a plain folder into a repo (creates `.git/`).
+- `git clone` — copy a remote repo (and its full history) to your machine.
+- `git status` — what's changed, what's staged, what's untracked. Run it constantly.
+- `git add` — stage a change for the next commit (moves it into the **index**).
+- `git commit` — record the staged snapshot as a new commit.
+- `git branch` — list or create branches (cheap pointers to commits).
+- `git checkout` / `git switch` — move `HEAD` to another branch or commit. (`switch` is the modern, safer spelling for branches.)
+- `git merge` — combine another branch's work into yours.
+- `git cherry-pick` — copy a single commit onto your current branch.
+- `git push` / `git pull` — send / receive commits to and from a remote. We **name** these now; we use them for real in later labs.
 
-**1. A commit is a tree.** Walk the existing `sample-app/` history:
+### `.gitignore` — telling Git what *not* to track
+
+Git tracks **everything** by default. `.gitignore` is how you tell it what to leave alone — build
+output, virtualenvs (`.venv`), `__pycache__`, `.pytest_cache/`, OS/editor junk, and local-only notes
+like `NOTES.local.md`.
+
+- Open this repo's own [`.gitignore`](../.gitignore). Notice `.pytest_cache/` is already listed —
+  that's exactly why running `pytest` during the You-do won't pollute your focused commit.
+- `git status` shows **untracked** files (Git sees them, you haven't added them) separately from
+  **ignored** files (Git pretends they aren't there). Knowing the difference saves you from the
+  classic "why did my commit include `.venv/`?" mistake.
+
+### The object model, conceptually
+
+The thread for the rest of the lab: *every workflow command is really a manipulation of commits,
+trees, and blobs.* Keep [`docs/git-object-model.md`](../docs/git-object-model.md) open as a cheat
+sheet.
+
+- **A commit is a tree.** Commits point to a *single* tree; trees point to blobs and sub-trees;
+  blobs are *just* content (no filename). The filename lives in the tree entry.
+- **Content-addressed.** An object's SHA *is* its content. Identical content is stored once;
+  unchanged files are never re-stored.
+- **The three pieces of working state:** **HEAD** (where you are), **refs** (named pointers like
+  `main`), and the **index** (the staging area between your working tree and the next commit).
+
+## I-do (30 min)
+
+The instructor live-codes, narrating the object graph at every step — now we *do* the moves the
+Teaching block described.
+
+**1. A commit is a tree (quick recap).** Walk the existing `sample-app/` history:
 
 1. `git log --oneline` — note one commit's SHA, e.g. `a1b2c3d`.
 2. `git cat-file -p a1b2c3d` — read the commit object out loud. Note the `tree` line and the `parent` line.
 3. `git cat-file -p <tree-SHA>` — read the tree object. It lists blobs and sub-trees by SHA.
-4. `git cat-file -p <blob-SHA>` — see the raw file content.
-5. Sketch the commit → tree → blob graph on the board.
-
-Key points: commits point to a *single* tree; trees point to blobs and trees; blobs are *just* content (no filename). The filename lives in the tree entry.
+4. `git cat-file -p <blob-SHA>` — see the raw file content. (Confirm: the blob has no filename.)
 
 **2. What a commit actually does.** Now make the graph move:
 
 1. Edit one line of `sample-app/README.md`.
-2. `git add sample-app/README.md` — explain that the **index** now holds a new blob, staged but not committed. `git status` shows the staged change.
+2. `git add sample-app/README.md` — the **index** now holds a new blob, staged but not committed. `git status` shows the staged change.
 3. `git commit -m "docs: tweak intro"` — a **new commit object** is born, pointing at a **new tree**, whose `README.md` entry points at a **new blob**. `HEAD` (a **ref**) advances to it.
 4. `git cat-file -p HEAD`, then its tree, then the README blob — confirm only the README blob SHA changed; `app.py`'s blob is byte-for-byte the same SHA as before. *Unchanged content is never re-stored.*
-
-Land the three moving parts here: **HEAD** (where you are), **refs** (named pointers like `main`), the **index** (the staging area between working tree and the next commit).
 
 **3. Branching and rewriting are just pointer moves and new objects.**
 
@@ -91,9 +130,16 @@ Land the three moving parts here: **HEAD** (where you are), **refs** (named poin
 4. **Merge — `--no-ff`.** Advance `main` with a separate commit, then `git merge --no-ff demo/throwaway`. Now there **is** a merge commit (a commit with *two* parents). The graph shows the branch shape. Display both with `git log --graph --decorate --oneline --all`.
 5. **Oops-recovery.** "Oops, committed to main." Demo `git reset HEAD~1 --soft` — the ref moves back one commit but the change stays in the **index** — then `git switch -c feature/recovered && git commit`. Reinforce: `reset` moves a ref; your blobs didn't go anywhere.
 
-## We do (20 min)
+## You-do (breakout rooms) (60 min)
 
-Follow along on your own clone.
+Break into rooms. **Share your screen** so Sam and Jasper can float and look over your shoulder.
+Open a scratch terminal and a scratch notebook (`NOTES.local.md` is gitignored).
+
+We start with a short **guided warm-up together**, then you go solo through two phases on the same
+clone. **Do Phase 1 first** — Phase 2 resets history and would erase Phase 1's checkpoint commit if
+done out of order.
+
+### Warm-up (together) — trace a commit, then stage by hunk
 
 **Part 1 — trace a commit through the object graph.**
 
@@ -113,15 +159,14 @@ Follow along on your own clone.
 
 > **Hint:** when `add -p` asks "Stage this hunk?", `y`/`n` is yes/no, `s` splits the hunk, `e` lets you hand-edit, `q` quits.
 
-## You do (50 min)
+### Solo
 
-Solo. Open a scratch terminal and a scratch notebook (`NOTES.local.md` is gitignored).
-Two phases, same clone. **Do Phase 1 first** — Phase 2 resets history and would erase
+Now work the two phases on your own. **Do Phase 1 first** — Phase 2 resets history and would erase
 Phase 1's checkpoint commit if done out of order.
 
 ### Phase 1 — spelunk the object graph, then make a focused commit
 
-The We-do left you on a scratch branch — first return to a clean `main`:
+The warm-up left you on a scratch branch — first return to a clean `main`:
 
 ```bash
 git switch main
@@ -172,9 +217,10 @@ git rev-parse --short HEAD    # note this SHA — the instructions call it BASE
 
 ## Stretch challenges `[OPTIONAL]`
 
-**1. Diff without `git diff`.** Pick two adjacent commits in the seeded history. Using only `git cat-file` and `git ls-tree`, determine: which files exist in commit B but not A? For files in both, which blob SHAs differ? For the changed blobs, print both and identify the changed line(s) by eye. You're reconstructing what `git diff` does internally — a tree walk plus a blob comparison. Confirm with `git diff <A> <B>`.
+Only if you finish the two phases early. The first is the higher-value one for this lab; the second
+is a deeper object-model dive for the curious.
 
-**2. Rebase through a conflict.** Re-do Part C, but first add a commit on `main` that edits the **same line** inside `greet()` that one of your feature commits did (the seed script's docstring change). Same-region edits on both branches are what *forces* a conflict:
+**1. Rebase through a conflict.** Re-do Part C, but first add a commit on `main` that edits the **same line** inside `greet()` that one of your feature commits did (the seed script's docstring change). Same-region edits on both branches are what *forces* a conflict:
 
 ```bash
 git switch main
@@ -194,7 +240,9 @@ git commit -am "main: add a comment inside greet()"
 
 Then `git switch feature/greeting-tweaks && git rebase main` — the feature commit that added a docstring to `greet()` touches the same spot, so Git halts with a conflict on that commit. Open `sample-app/app.py`, resolve (keep both the comment and the docstring), `git add sample-app/app.py`, then `git rebase --continue`. Confirm linear history with `git log --graph --decorate --oneline --all`. If you'd rather bail, `git rebase --abort` is also a valid exit.
 
-## Debrief (15 min)
+**2. Diff without `git diff` (deeper dive).** Pick two adjacent commits in the seeded history. Using only `git cat-file` and `git ls-tree`, determine: which files exist in commit B but not A? For files in both, which blob SHAs differ? For the changed blobs, print both and identify the changed line(s) by eye. You're reconstructing what `git diff` does internally — a tree walk plus a blob comparison. Confirm with `git diff <A> <B>`.
+
+## Wrap-up & questions (15 min)
 
 - Which of the "why VC matters" reasons resonated most with your day-to-day work?
 - When does the object-model mental model *actually* matter in real life? (Hint: rebase conflicts, recovery with `git reflog`, understanding why `git mv` is just rename + commit.)

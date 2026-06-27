@@ -166,7 +166,7 @@ After Part B, both merge styles should be visible in the reflog. The expected gr
 - Plain `merge` would fast-forward (no merge commit, linear history).
 - `--no-ff` would still force a merge commit (preserves the "this was a branch" signal).
 
-Demo this explicitly in debrief if students didn't catch it: reset to `BASE`, branch, commit, then merge each way *without* moving `main`.
+Demo this explicitly in the wrap-up if students didn't catch it: reset to `BASE`, branch, commit, then merge each way *without* moving `main`.
 
 ### Part C — linear rebase
 
@@ -186,7 +186,26 @@ The feature commits will have **new SHAs** because rebase rewrites them. Student
 
 ## Stretch keys
 
-### 1. Reconstructing `git diff`
+> Both are optional, only attempted if a room finishes early. In `lab.md` the **conflict** stretch
+> is #1 (higher value for this lab) and the **reconstruct-`git diff`** stretch is #2 (deeper dive).
+
+### 1. Conflict resolution
+
+Both branches inserted a different line just above `message =` inside `greet()`, so the conflict lands there. During the rebase, `HEAD` is `main` (the comment) and the incoming side is the feature commit (the docstring):
+
+```
+def greet(name: str, shout: bool = False) -> str:
+<<<<<<< HEAD
+    # CONFLICT BAIT — main and your feature branch both edit greet()
+=======
+    """Return a friendly greeting for `name`."""
+>>>>>>> <hash> (refactor(app): add docstring to greet())
+    message = f"Hello, {name}!"
+```
+
+Resolution: keep **both** lines (delete the three `<<<<<<<` / `=======` / `>>>>>>>` markers, leave the comment and the docstring). Save, `git add sample-app/app.py`, `git rebase --continue`. If a student gets stuck, `git rebase --abort` is a legitimate exit — better to bail and try again than to mash through and produce broken history.
+
+### 2. Reconstructing `git diff` (deeper dive)
 
 ```bash
 # Pick two adjacent commits, say HEAD and HEAD~1.
@@ -206,23 +225,7 @@ diff /tmp/old.txt /tmp/new.txt
 
 Goal: students see that `git diff` is not a black box — it's a tree walk + blob comparison. The mental model from the I-do is now operational.
 
-### 2. Conflict resolution
-
-Both branches inserted a different line just above `message =` inside `greet()`, so the conflict lands there. During the rebase, `HEAD` is `main` (the comment) and the incoming side is the feature commit (the docstring):
-
-```
-def greet(name: str, shout: bool = False) -> str:
-<<<<<<< HEAD
-    # CONFLICT BAIT — main and your feature branch both edit greet()
-=======
-    """Return a friendly greeting for `name`."""
->>>>>>> <hash> (refactor(app): add docstring to greet())
-    message = f"Hello, {name}!"
-```
-
-Resolution: keep **both** lines (delete the three `<<<<<<<` / `=======` / `>>>>>>>` markers, leave the comment and the docstring). Save, `git add sample-app/app.py`, `git rebase --continue`. If a student gets stuck, `git rebase --abort` is a legitimate exit — better to bail and try again than to mash through and produce broken history.
-
-## Debrief crib
+## Wrap-up & questions crib
 
 Use these as conversational threads, not as questions to grade:
 
