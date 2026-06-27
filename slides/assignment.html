@@ -324,30 +324,61 @@ git log --graph --decorate --oneline -5</pre></div>
       <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span><span><b>Tree shape at that commit.</b> Using <i>only</i> cat-file &amp; ls-tree, list every tracked file. How many?</span></li>
     </ul>
   </div>
-  <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Phase 1 · questions 1–5 → focused commit next</span></div>
+  <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Phase 1 · questions 1–5 → who wrote that? next</span></div>
 </section>
 
-<!-- 7 · PHASE 1 — FOCUSED COMMIT + GATE -->
+<!-- 7 · PHASE 1 — GIT BLAME (the fun one) -->
+<section class="slide">
+  <div class="topbar">
+    <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
+    <div class="stage">Solo · Phase 1 · whodunnit</div>
+  </div>
+  <div class="body">
+    <div class="sechead"><span class="num p">PHASE 1 · 6</span><div><div class="title">"Who on earth wrote <span class="mono" style="font-size:30px">this</span>?"</div><div class="lead">Every line in a file has an author and a commit. <span class="inlinecode">git blame</span> tells you exactly who to thank — or who to <i>blame</i>.</div></div></div>
+    <div class="cols2">
+      <div class="steps">
+        <div class="step"><div class="ix p">1</div><div class="tx">Open <span class="inlinecode">sample-app/app.py</span> and find the suspicious line in <span class="inlinecode">farewell()</span> — the one promising it's <i>"definitely safe to ship."</i></div></div>
+        <div class="step"><div class="ix p">2</div><div class="tx">Run <span class="inlinecode">git blame sample-app/app.py</span>. Each line shows its <b>commit · author · date</b>.</div></div>
+        <div class="step"><div class="ix p">3</div><div class="tx"><b>Who wrote that line?</b> 👀 Read the author off the blame output. Anyone you recognise…?</div></div>
+        <div class="step"><div class="ix p">4</div><div class="tx">Read the full story of that line: <span class="inlinecode">git log -p -L :farewell:sample-app/app.py</span> — blame + log together are how you reconstruct <i>why</i> a line exists.</div></div>
+      </div>
+      <div>
+        <div class="code"><pre><span class="cm"># 2 — author + commit for every line</span>
+git blame sample-app/app.py
+
+<span class="cm"># 4 — the whole history of that function's lines</span>
+git log -p -L :farewell:sample-app/app.py</pre></div>
+        <div class="goal good-g" style="margin-top:18px">
+          <span class="badge">Why it matters</span>
+          <p><b>blame isn't for pointing fingers</b> — it's how you find the commit (and the reasoning) behind any line, fast.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Phase 1 · git blame → focused commit next</span></div>
+</section>
+
+<!-- 8 · PHASE 1 — FOCUSED COMMIT + GATE -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
     <div class="stage">Solo · Phase 1 · the gate</div>
   </div>
   <div class="body">
-    <div class="sechead"><span class="num p">PHASE 1 · 6–7</span><div><div class="title">Make a focused commit, then check the gate</div></div></div>
+    <div class="sechead"><span class="num p">PHASE 1 · 7–8</span><div><div class="title">Make a focused commit, then check the gate</div></div></div>
     <div class="cols2">
       <div class="steps">
-        <div class="step"><div class="ix p">6</div><div class="tx">Add your name to <span class="inlinecode">sample-app/README.md</span> as a <b>"lab participant"</b> line. Commit it with a clear message.</div></div>
-        <div class="step"><div class="ix p">6</div><div class="tx"><span class="inlinecode">git cat-file -p HEAD</span> → confirm <b>only the README blob changed</b> — not <span class="inlinecode">app.py</span>, not the <span class="inlinecode">tests/</span> tree.</div></div>
-        <div class="step"><div class="ix p">7</div><div class="tx">Run <span class="inlinecode">scripts/verify-lab.sh</span> — it must print a green ✅. <b>Run it now, before Phase 2.</b></div></div>
+        <div class="step"><div class="ix p">7</div><div class="tx">Add your name to <span class="inlinecode">sample-app/README.md</span> as a <b>"lab participant"</b> line. Commit it with a clear message.</div></div>
+        <div class="step"><div class="ix p">7</div><div class="tx"><span class="inlinecode">git cat-file -p HEAD</span> → confirm <b>only the README blob changed</b> — not <span class="inlinecode">app.py</span>, not the <span class="inlinecode">tests/</span> tree.</div></div>
+        <div class="step"><div class="ix p">8</div><div class="tx">Run <span class="inlinecode">scripts/verify-lab.sh</span> — it must print a green ✅. <b>Run it now, before Phase 2.</b></div></div>
       </div>
       <div>
-        <div class="code"><pre><span class="cm"># step 6 — one clean, isolated commit</span>
+        <div class="code"><pre><span class="cm"># step 7 — one clean, isolated commit</span>
 git add sample-app/README.md
 git commit -m <span class="cmd2">"docs: add lab participant"</span>
 git cat-file -p HEAD
 
-<span class="cm"># step 7 — the gate</span>
+<span class="cm"># step 8 — the gate</span>
 scripts/verify-lab.sh   <span class="cm"># → ✅</span></pre></div>
         <div class="goal good-g" style="margin-top:18px">
           <span class="badge">✅ Gate</span>
@@ -359,7 +390,7 @@ scripts/verify-lab.sh   <span class="cm"># → ✅</span></pre></div>
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Green ✅? → Phase 2</span></div>
 </section>
 
-<!-- 8 · PHASE 2 — DIVIDER + BASELINE -->
+<!-- 9 · PHASE 2 — DIVIDER + BASELINE -->
 <section class="slide dark">
   <div class="topbar">
     <div class="on-dark brandrow"><img class="logo-img" src="logos/OriginalLight.png" alt="Mustry Solutions"></div>
@@ -380,7 +411,7 @@ git rev-parse --short HEAD   <span class="cm"># note this → "BASE"</span></pre
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Phase 2 · Part A → B → C</span></div>
 </section>
 
-<!-- 9 · PHASE 2 PART A -->
+<!-- 10 · PHASE 2 PART A -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -409,7 +440,7 @@ git commit -m <span class="cmd2">"…"</span>         <span class="cm"># …×3<
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Part A of C</span></div>
 </section>
 
-<!-- 10 · PHASE 2 PART B -->
+<!-- 11 · PHASE 2 PART B -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -447,7 +478,7 @@ git log --graph --decorate --oneline --all</pre></div>
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Part B of C</span></div>
 </section>
 
-<!-- 11 · PHASE 2 PART C -->
+<!-- 12 · PHASE 2 PART C -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -476,7 +507,7 @@ git log --graph --decorate --oneline --all</pre></div>
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Part C of C</span></div>
 </section>
 
-<!-- 12 · STRETCH 1 -->
+<!-- 13 · STRETCH 1 -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -515,7 +546,7 @@ git log --graph --decorate --oneline --all</pre></div>
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Stretch 1 of 2 — optional</span></div>
 </section>
 
-<!-- 13 · STRETCH 2 -->
+<!-- 14 · STRETCH 2 -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -553,7 +584,7 @@ git diff HEAD~1 HEAD</pre></div>
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Stretch 2 of 2 — optional</span></div>
 </section>
 
-<!-- 14 · DONE -->
+<!-- 15 · DONE -->
 <section class="slide dark">
   <div class="topbar">
     <div class="on-dark brandrow"><img class="logo-img" src="logos/OriginalLight.png" alt="Mustry Solutions"></div>
@@ -578,7 +609,7 @@ git diff HEAD~1 HEAD</pre></div>
 </div>
 
 <div class="hud"><div class="bar" id="bar"></div></div>
-<div class="pager" id="pager">01 / 14</div>
+<div class="pager" id="pager">01 / 15</div>
 <div class="hint" id="hint">↑ ↓ / scroll to navigate</div>
 
 <script>

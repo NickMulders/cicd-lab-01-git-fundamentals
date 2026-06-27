@@ -179,8 +179,9 @@ Now work through these against the existing history. Write down each answer.
 3. **Which commit introduced `farewell()`?** Use `git log -S "def farewell" --oneline -- sample-app/app.py`. What's the SHA, and how does it differ from the commit you found in #2?
 4. **Blob SHA before `farewell()` existed.** Using the `--shout` commit from #1, read `app.py`'s blob SHA at that point with `git ls-tree <shout-SHA> sample-app/app.py`. Print it with `git cat-file -p <blob-SHA>` — confirm `farewell()` isn't there yet, and that it matches `git show <shout-SHA>:sample-app/app.py`.
 5. **Tree shape at that commit.** Using *only* `git cat-file` and `git ls-tree`, list every file tracked at the `--shout` commit. How many total? Compare against `git ls-tree -r --name-only <shout-SHA>`.
-6. **Make a focused commit.** Add your name to `sample-app/README.md` as a "lab participant" line. Commit it with a clear message. Then `git cat-file -p HEAD` and confirm that only the `README.md` blob entry changed (not the `app.py` blob, not the `tests/` tree).
-7. **Sanity check.** Run `scripts/verify-lab.sh` — it should print a green ✅ if your focused commit is correct. Run this **now**, before Phase 2.
+6. **Whodunnit?** Open `sample-app/app.py` and spot the suspicious line inside `farewell()` — the one swearing it's *"definitely safe to ship."* Run `git blame sample-app/app.py` and read off the **author** of that line. Who do you have to thank? Then `git log -p -L :farewell:sample-app/app.py` to read the full story of those lines — blame finds the *who*, log finds the *why*.
+7. **Make a focused commit.** Add your name to `sample-app/README.md` as a "lab participant" line. Commit it with a clear message. Then `git cat-file -p HEAD` and confirm that only the `README.md` blob entry changed (not the `app.py` blob, not the `tests/` tree).
+8. **Sanity check.** Run `scripts/verify-lab.sh` — it should print a green ✅ if your focused commit is correct. Run this **now**, before Phase 2.
 
 ### Phase 2 — branch, merge, and rebase
 

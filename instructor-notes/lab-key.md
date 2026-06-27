@@ -4,13 +4,16 @@
 
 ## Pre-requisite: the seeded history
 
-`sample-app/app.py` should have **three** commits in its history (`git log --oneline -- sample-app/app.py`), oldest → newest:
+`sample-app/app.py` should have **four** commits in its history (`git log --oneline -- sample-app/app.py`), oldest → newest:
 
-1. **initial commit** — `app.py` is born with `greet()` and an argv-driven `__main__`.
-2. **add shout functionality** — `greet()` gains the `shout` parameter / `--shout` flag.
-3. **add farewell functionality** — `farewell()` is added alongside `greet()`.
+1. **initial commit** — `app.py` is born with `greet()` and an argv-driven `__main__`. *(author: Sam)*
+2. **add shout functionality** — `greet()` gains the `shout` parameter / `--shout` flag. *(author: Sam)*
+3. **add farewell functionality** — `farewell()` is added alongside `greet()`. *(author: Sam)*
+4. **farewell: add a quick temporary hack** — a deliberately silly `# HACK … definitely safe to ship. -J` comment inside `farewell()`. **Authored by Jasper** — this is the bait for the `git blame` gag in question 6.
 
 SHAs differ per-build because Git timestamps are per-author/date, so the key works by **commit messages and `-S` queries**, not literal SHAs. The questions are deliberately phrased against `app.py`'s own history (found via `git log -- sample-app/app.py`) rather than `HEAD~N`, so unrelated doc/lab commits stacked on top don't throw off the answers.
+
+> **Note on the commit count:** questions 1–5 still work unchanged. The HACK commit is the *newest* commit and is authored by Jasper; it does **not** touch the `--shout` commit or the `farewell()` commit the questions reference (those are found by `-S` and by message), so the "blob before farewell()" and "tree shape" answers are unaffected. If you re-seed the repo from scratch, re-create this commit with `git commit --author="Jasper Louage <jasper.louage@mustrysolutions.com>"`.
 
 ## Phase 1 — spelunk + focused commit
 
@@ -18,7 +21,8 @@ SHAs differ per-build because Git timestamps are per-author/date, so the key wor
 
 ```bash
 git log --oneline -- sample-app/app.py
-# Three commits, newest first:
+# Four commits, newest first:
+#   <sha> farewell: add a quick temporary hack (will clean up later)   ← Jasper
 #   <sha> add farewell functionality to sample-app
 #   <sha> add shout functionality to the sample application
 #   <sha> initial commit
@@ -75,7 +79,17 @@ git ls-tree -r --name-only <shout-SHA>
 
 The `sample-app/` subtree is the stable part (four files). The lab-level file count depends on what else was committed at that point, so don't grade on the total.
 
-### 6. Make a focused commit
+### 6. Whodunnit? (the `git blame` gag)
+
+```bash
+git blame sample-app/app.py
+# Inside farewell(), the "# HACK: …definitely safe to ship. -J" line shows:
+#   <sha> (Jasper Louage <date> NN) # HACK: …
+```
+
+**Answer: the line is authored by Jasper** (the instructor). All the other lines are Sam's, so the contrast makes it obvious. This is purely for the laugh + to show that blame is *per line*, with author + commit + date. The follow-up `git log -p -L :farewell:sample-app/app.py` shows the full line-history of the function (blame = *who*, log = *why*). Lean into it: "blame isn't for finger-pointing, it's how you find the commit behind any line" — then reveal it's your own hack.
+
+### 7. Make a focused commit
 
 Expected diff in the new commit: exactly one hunk in `sample-app/README.md` adding a "lab participant" line.
 
@@ -96,7 +110,7 @@ git ls-tree HEAD sample-app/
 
 Common mistake: students accidentally also save unrelated file changes (e.g., they ran `pytest` and a `.pytest_cache/` got pulled in). The `.gitignore` covers `.pytest_cache/`, but if they forced an add, you'll see additional blobs. Look for `git add .` in their shell history.
 
-### 7. Sanity check
+### 8. Sanity check
 
 `scripts/verify-lab.sh` should print all-green here. It checks a clean tree, a "lab participant" line in `sample-app/README.md`, and that `HEAD` touched **only** `sample-app/README.md`. Students must run it **before** Phase 2's resets — once Phase 2 rewrites history, the "HEAD touched only README" invariant no longer holds.
 
