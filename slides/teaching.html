@@ -125,6 +125,30 @@ body{
 .does li{list-style:none;display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--txt);line-height:1.4}
 .does li .d{flex:none;width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:7px}
 
+/* inspect / undo cards */
+.iu{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch;margin-top:4px}
+.iucard{display:flex;flex-direction:column;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px 20px 20px}
+.iucard.danger{background:var(--warn-soft);border-color:#f0d9a8}
+.iucard .cardh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px solid var(--line2)}
+.iucard .cmd-name{font-family:'IBM Plex Mono';font-size:16px;font-weight:600;color:var(--blue)}
+.iucard.danger .cmd-name{color:var(--warn)}
+.iucard .pill{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.iucard .pill.safe{color:var(--good);background:var(--good-soft)}
+.iucard .pill.danger{color:var(--warn);background:#f6e2c2}
+.iucard .sub{font-size:12.5px;color:var(--txt-dim);font-weight:600;margin-bottom:15px;line-height:1.4}
+.iucard ul{display:flex;flex-direction:column;gap:11px}
+.iucard li{list-style:none;display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--txt);line-height:1.45}
+.iucard li b{font-weight:700}
+.iucard li .d{flex:none;width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:7px}
+.iucard.danger li .d{background:var(--warn)}
+.iucard .iunote{margin-top:auto;display:flex;gap:10px;align-items:flex-start;border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.45;color:var(--txt)}
+.iucard ul{margin-bottom:18px}
+.iucard .iunote .ic{flex:none;font-size:14px;line-height:1.3}
+.iucard .iunote.safe{background:var(--good-soft)}
+.iucard .iunote.warn{background:#f6e2c2}
+.iucard .iunote b{font-weight:700}
+.iucard .iunote code{font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;color:var(--warn)}
+
 .refs{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;padding-top:18px}
 .refs .ref{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--txt-dim);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 11px}
 .refs .ref b{color:var(--blue);font-weight:600}
@@ -532,12 +556,17 @@ body{
       <div class="cmd"><code>git commit</code><span>record the staged snapshot as a new commit.</span></div>
       <div class="cmd"><code>git push / pull</code><span>send / receive commits to a remote. <b>Named now, used in later labs.</b></span></div>
     </div>
+
+    <div class="callout" style="margin-top:20px;border-left:5px solid var(--warn);padding:14px 20px">
+      <div class="lab">Note</div>
+      <p>Most students will drive Git from <b>VS Code's Source Control panel</b>, which wraps stage, commit, branch, push and pull in buttons — the UI <b>abstracts these commands away</b>. Teach the CLI so they understand what those buttons actually <i>do</i>, but reassure them the UI handles the everyday flow; the terminal is for when it doesn't.</p>
+    </div>
   </div>
 
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>The everyday Git toolkit</span></div>
 </section>
 
-<!-- 13 · GITIGNORE -->
+<!-- 13 · INSPECTING & UNDOING — git blame / git reset -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -547,6 +576,55 @@ body{
   <div class="body">
     <div class="sechead">
       <span class="num">04</span>
+      <div>
+        <div class="title">Inspecting &amp; undoing</div>
+        <div class="lead">Two more commands you'll reach for often — one to find out <b>who</b> wrote a line, one to <b>throw work away</b>. Handle the second with care.</div>
+      </div>
+    </div>
+
+    <div class="iu">
+      <div class="iucard">
+        <div class="cardh">
+          <span class="cmd-name">git blame</span>
+          <span class="pill safe">Read-only · safe</span>
+        </div>
+        <div class="sub">Who wrote this line — and when?</div>
+        <ul>
+          <li><span class="d"></span>Annotates <b>every line</b> of a file with the commit, author and date that last touched it.</li>
+          <li><span class="d"></span>Answers "<b>who do I ask about this?</b>" and "when did this line appear?"</li>
+          <li><span class="d"></span>Changes nothing — a pure inspection command.</li>
+        </ul>
+      </div>
+      <div class="iucard danger">
+        <div class="cardh">
+          <span class="cmd-name">git reset --hard</span>
+          <span class="pill danger">Destructive</span>
+        </div>
+        <div class="sub">Rewind the branch — and discard everything.</div>
+        <ul>
+          <li><span class="d"></span>Moves the current <b>branch pointer</b> to a chosen commit…</li>
+          <li><span class="d"></span>…<b>and</b> overwrites your working tree to match it.</li>
+          <li><span class="d"></span>Uncommitted changes are <b>gone — there is no undo</b>.</li>
+          <li><span class="d"></span>Plain <span class="mono">git reset</span> (<span class="mono">--mixed</span>) keeps your edits; <span class="mono">--hard</span> does not.</li>
+        </ul>
+        <div class="iunote warn"><span class="ic">⚠️</span><span>Want to keep your edits? Use <code>--soft</code> / <code>--mixed</code>. Unsure? <b>Use <code>git stash</code> first, this is your safety net.</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Inspect with blame · undo with reset</span></div>
+</section>
+
+<!-- 14 · GITIGNORE -->
+<section class="slide">
+  <div class="topbar">
+    <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
+    <div class="stage">Teaching</div>
+  </div>
+
+  <div class="body">
+    <div class="sechead">
+      <span class="num">05</span>
       <div>
         <div class="title"><span class="mono" style="font-size:34px">.gitignore</span> — what <em style="font-style:italic">not</em> to track</div>
         <div class="lead">Git tracks <b>everything</b> by default. <span class="mono">.gitignore</span> is how you tell it what to leave alone.</div>
@@ -559,7 +637,7 @@ body{
     </ul>
     <div class="callout">
       <div class="lab">Saves you from</div>
-      <p>The classic <b>"why did my commit include <code>.venv/</code>?"</b> mistake.</p>
+      <p>The classic <b>"why did my commit include <code>.venv/</code> or <code>.env</code>?"</b> mistake.</p>
     </div>
   </div>
 
@@ -589,7 +667,7 @@ body{
 </div>
 
 <div class="hud"><div class="bar" id="bar"></div></div>
-<div class="pager" id="pager">01 / 15</div>
+<div class="pager" id="pager">01 / 16</div>
 <div class="hint" id="hint">↑ ↓ slides · ← → step the animation</div>
 
 <script>
