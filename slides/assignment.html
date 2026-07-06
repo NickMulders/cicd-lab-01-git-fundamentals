@@ -266,21 +266,23 @@ body{
         <div class="step"><div class="ix t">1</div><div class="tx">Add a single sentence to <span class="inlinecode">sample-app/README.md</span>.</div></div>
         <div class="step"><div class="ix t">2</div><div class="tx">Stage &amp; commit it (see command).</div></div>
         <div class="step"><div class="ix t">3</div><div class="tx"><span class="inlinecode">git cat-file -p HEAD</span>, then read it aloud. Note the <b>tree</b> SHA and the <b>parent</b> SHA.</div></div>
-        <div class="step"><div class="ix t">4</div><div class="tx">cat-file the <b>tree</b> → find the <span class="inlinecode">README.md</span> entry → note its <b>blob</b> SHA.</div></div>
-        <div class="step"><div class="ix t">5</div><div class="tx">cat-file the <b>blob</b> → confirm it's your file content. <b>The blob has no filename</b>: the name lived in the tree.</div></div>
-        <div class="step"><div class="ix t">6</div><div class="tx">Now let Git do that whole walk in one command: <span class="inlinecode">git ls-tree HEAD sample-app/</span>. The <span class="inlinecode">README.md</span> <b>blob SHA should match</b> the one you traced by hand: that matching SHA is the point.</div></div>
+        <div class="step"><div class="ix t">4</div><div class="tx">cat-file the <b>tree</b> → this is the <b>root</b> tree, so the <span class="inlinecode">README.md</span> here is the repo's own. Find the <span class="inlinecode">sample-app</span> <b>sub-tree</b> entry instead → note its SHA.</div></div>
+        <div class="step"><div class="ix t">5</div><div class="tx">cat-file the <b>sub-tree</b> → find <i>your</i> <span class="inlinecode">README.md</span> entry → note its <b>blob</b> SHA.</div></div>
+        <div class="step"><div class="ix t">6</div><div class="tx">cat-file the <b>blob</b> → confirm it's your file content. <b>The blob has no filename</b>: the name lived in the tree.</div></div>
+        <div class="step"><div class="ix t">7</div><div class="tx">Now let Git do that whole walk in one command: <span class="inlinecode">git ls-tree HEAD sample-app/</span>. The <span class="inlinecode">README.md</span> <b>blob SHA should match</b> the one you traced by hand: that matching SHA is the point.</div></div>
       </div>
       <div>
         <div class="code"><pre><span class="cm"># step 2: make a commit to trace</span>
 git add sample-app/README.md
 git commit -m <span class="cmd2">"docs: expand sample-app intro"</span>
 
-<span class="cm"># steps 3 to 5: walk the graph</span>
+<span class="cm"># steps 3 to 6: walk the graph</span>
 git cat-file -p HEAD
-git cat-file -p &lt;tree-SHA&gt;
+git cat-file -p &lt;tree-SHA&gt;       <span class="cm"># root tree → sample-app sub-tree</span>
+git cat-file -p &lt;sub-tree-SHA&gt;   <span class="cm"># → your README.md blob</span>
 git cat-file -p &lt;blob-SHA&gt;
 
-<span class="cm"># step 6: same walk, one command, the blob SHA should match</span>
+<span class="cm"># step 7: same walk, one command, the blob SHA should match</span>
 git ls-tree HEAD sample-app/</pre></div>
         <div class="goal" style="margin-top:18px">
           <span class="badge">key → value</span>
@@ -392,7 +394,7 @@ git log -p -L :farewell:sample-app/app.py</pre></div>
     <div class="cols2">
       <div class="steps">
         <div class="step"><div class="ix p">5</div><div class="tx">Add your name to <span class="inlinecode">sample-app/README.md</span> as a <b>"lab participant"</b> line. Commit it with a clear message.</div></div>
-        <div class="step"><div class="ix p">6</div><div class="tx"><span class="inlinecode">git cat-file -p HEAD</span> → confirm <b>only the README blob changed</b>, not <span class="inlinecode">app.py</span>, not the <span class="inlinecode">tests/</span> tree.</div></div>
+        <div class="step"><div class="ix p">6</div><div class="tx">Compare <span class="inlinecode">git ls-tree HEAD~1 sample-app/</span> with <span class="inlinecode">git ls-tree HEAD sample-app/</span> → confirm <b>only the README blob SHA changed</b>, not <span class="inlinecode">app.py</span>, not the <span class="inlinecode">tests/</span> tree.</div></div>
         <div class="step"><div class="ix p">7</div><div class="tx">Run <span class="inlinecode">scripts/verify-lab.sh</span>. It must print a green ✅. <b>Run it now, before Phase 2.</b></div></div>
       </div>
       <div>
@@ -401,7 +403,8 @@ git add sample-app/README.md
 git commit -m <span class="cmd2">"docs: add lab participant"</span>
 
 <span class="cm"># step 6: confirm only the README changed</span>
-git cat-file -p HEAD
+git ls-tree HEAD~1 sample-app/
+git ls-tree HEAD sample-app/    <span class="cm"># only README.md's SHA differs</span>
 
 <span class="cm"># step 7: the gate</span>
 scripts/verify-lab.sh   <span class="cm"># → ✅</span></pre></div>

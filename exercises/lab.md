@@ -120,7 +120,7 @@ Teaching block described.
 1. Edit one line of `sample-app/README.md`.
 2. `git add sample-app/README.md` — the **index** now holds a new blob, staged but not committed. `git status` shows the staged change.
 3. `git commit -m "docs: tweak intro"` — a **new commit object** is born, pointing at a **new tree**, whose `README.md` entry points at a **new blob**. `HEAD` (a **ref**) advances to it.
-4. `git cat-file -p HEAD`, then its tree, then the README blob — confirm only the README blob SHA changed; `app.py`'s blob is byte-for-byte the same SHA as before. *This is the snapshot slide made real: the commit is a **full snapshot**, but the unchanged blob is **reused, not re-stored**.*
+4. `git cat-file -p HEAD`, then its tree, then the `sample-app` sub-tree, then the README blob — confirm only the README blob SHA changed; `app.py`'s blob is byte-for-byte the same SHA as before. *This is the snapshot slide made real: the commit is a **full snapshot**, but the unchanged blob is **reused, not re-stored**.*
 
 **3. Branching and rewriting are just pointer moves and new objects.**
 
@@ -146,9 +146,10 @@ done out of order.
 1. Make a small change to `sample-app/README.md` — add a single sentence.
 2. `git add sample-app/README.md && git commit -m "docs: expand sample-app intro"`.
 3. `git cat-file -p HEAD` — read it out loud. Note the `tree` SHA and the `parent` SHA.
-4. `git cat-file -p <tree-SHA>` — find the entry for `README.md`. Note its blob SHA.
-5. `git cat-file -p <blob-SHA>` — confirm it matches your new file content.
-6. `git ls-tree HEAD sample-app/` — see the tree expressed in one line.
+4. `git cat-file -p <tree-SHA>` — this is the **root** tree, so the `README.md` entry you see here is the *repo's own* README, not the one you edited. Find the `sample-app` **sub-tree** entry instead, and note its SHA.
+5. `git cat-file -p <sample-app-tree-SHA>` — *this* tree lists your `README.md`. Note its blob SHA.
+6. `git cat-file -p <blob-SHA>` — confirm it matches your new file content.
+7. `git ls-tree HEAD sample-app/` — the same walk in one command. The `README.md` blob SHA should match the one you just traced by hand.
 
 **Part 2 — stage by hunk.** Reset back to a clean tree first: `git reset --hard HEAD~1` (this drops the practice commit above — that's fine, we're about to do it properly).
 
@@ -184,7 +185,7 @@ Jot each answer in `NOTES.local.md` as you go.
 **Focused commit + gate (5–7)**
 
 5. **Make a focused commit.** Add your name to `sample-app/README.md` as a "lab participant" line. Commit it with a clear message.
-6. `git cat-file -p HEAD` → confirm that **only the `README.md` blob entry changed** (not the `app.py` blob, not the `tests/` tree).
+6. Prove that **only the `README.md` blob changed**: compare `git ls-tree HEAD~1 sample-app/` with `git ls-tree HEAD sample-app/` — the `README.md` blob SHA differs, and every other entry (the `app.py` blob, the `tests/` tree) is identical.
 7. **The gate.** Run `scripts/verify-lab.sh` — it should print all-green ✅. Run this **now**, before Phase 2: Phase 2 rewrites history, and the "HEAD touched only README" check no longer holds afterwards.
 
 ### Phase 2 — branch, merge, and rebase
