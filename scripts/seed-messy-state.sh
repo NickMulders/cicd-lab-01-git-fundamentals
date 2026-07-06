@@ -14,7 +14,7 @@ set -euo pipefail
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 
-# python3 on macOS/Linux; plain python on Windows Git Bash
+# prefer python3, fall back to plain python where python3 is missing
 PY_BIN="$(command -v python3 || command -v python || true)"
 if [ -z "$PY_BIN" ]; then
   echo "ERROR: python3 (or python) is required to seed the working tree."

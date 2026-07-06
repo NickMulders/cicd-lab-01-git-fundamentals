@@ -1,6 +1,6 @@
 # Lab 01 — Git Fundamentals
 
-Day 1 of the [CI/CD for Ignition Masterclass](https://github.com/mustry-academy/cicd-masterclass).
+Day 1 of the *CI/CD for Ignition* masterclass.
 
 > Build a working mental model of Git, and learn to operate confidently with branches, commits, merges, and rebases.
 
@@ -8,6 +8,7 @@ This is the first lab in the course. We deliberately stay out of Ignition territ
 
 ## Prerequisites
 
+- Work in **WSL2 (Windows), Linux, or macOS** — run all lab commands there, not in PowerShell or Git Bash (see the platform notes in your welcome package)
 - Pass [`cicd-preflight`](https://github.com/mustry-academy/cicd-preflight)
 - **Fork this repo** to your own GitHub account and clone *your fork* before the live session — every lab repo gets forked to your personal space, so you can commit, branch and push freely
 
