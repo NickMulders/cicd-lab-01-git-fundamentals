@@ -198,6 +198,11 @@ Expected observations:
 - If the student picks the *second or third* feature commit, the pick still applies cleanly because
   the seed's three changes are in three different files — a nice aside: cherry-pick replays a
   **change (diff)**, not a snapshot.
+- **Stretch 1 interaction:** if the student did Stretch 1 first, its rebase rewrote the feature
+  branch — the docstring commit's diff now sits on top of the conflict-bait comment, so picking
+  *that* commit onto `BASE` (which has no comment) **conflicts**. Expected, not broken: steer them
+  to the docs or test commit for a clean pick, or let them resolve it the same way as Stretch 1 —
+  it's a second, unplanned proof that cherry-pick replays a diff against whatever context it finds.
 
 Tie it back to the object model: like rebase, cherry-pick manufactures new commit objects; the
 original is still reachable from the source branch.

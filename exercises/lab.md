@@ -297,7 +297,7 @@ Then `git switch feature/greeting-tweaks && git rebase main` — the feature com
 
 **2. Diff without `git diff` (deeper dive).** Pick two adjacent commits in the seeded history. Using only `git cat-file` and `git ls-tree`, determine: which files exist in commit B but not A? For files in both, which blob SHAs differ? For the changed blobs, print both and identify the changed line(s) by eye. You're reconstructing what `git diff` does internally — a tree walk plus a blob comparison. Confirm with `git diff <A> <B>`.
 
-**3. Cherry-pick one commit.** Grab a **single** commit from a branch without merging the whole thing — and watch it land as a **brand-new commit**:
+**3. Cherry-pick one commit.** Grab a **single** commit from a branch without merging the whole thing — and watch it land as a **brand-new commit**. (Did Stretch 1 first? Pick the **docs** or **test** commit: Stretch 1's rebase rewrote the docstring commit so its diff now expects the conflict-bait comment, and picking it onto `BASE` would conflict again.)
 
 ```bash
 git switch main && git reset --hard BASE    # main is behind your feature work again
