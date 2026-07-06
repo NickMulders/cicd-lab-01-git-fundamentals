@@ -560,7 +560,7 @@ git reset --hard HEAD~3
 
 <span class="cm"># 2: make main collide with the feature edit</span>
 <span class="cm"># edit the same greet() spot, then:</span>
-git commit -am <span class="cmd2">"main: tweak greet()"</span>
+git commit -am <span class="cmd2">"main: add a comment inside greet()"</span>
 
 <span class="cm"># 3: rebase halts on the conflict</span>
 git switch feature/greeting-tweaks

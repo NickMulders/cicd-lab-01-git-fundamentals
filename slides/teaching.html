@@ -704,7 +704,7 @@ body{
 </div>
 
 <div class="hud"><div class="bar" id="bar"></div></div>
-<div class="pager" id="pager">01 / 16</div>
+<div class="pager" id="pager">01 / 17</div>
 <div class="hint" id="hint">↑ ↓ slides · ← → step the animation</div>
 
 <script>
@@ -980,7 +980,7 @@ function bindControls(slideEl,ctrl){
     {show:['F','CF'],main:Xtop.E,nb:Xtop.E,hot:Xbot.F,t:'⚠ Critical bug! We branch <b>hotfix</b> from production (C) and commit <b>F</b>.'},
     {show:['G','FG'],main:Xtop.E,nb:Xtop.E,hot:Xbot.G,t:'Commit <b>G</b> → hotfix pointer moves to G. The bug is fixed.'},
     {show:['M','EM','GM'],main:Xmerge,nb:Xtop.E,hot:Xbot.G,t:'Now main &amp; hotfix have <b>diverged</b>. <b>git merge</b> does a <b>three-way merge</b> (base C + both tips) → a new <b>merge commit M with two parents</b>. main moves to M.'},
-    {show:[],main:Xmerge,nb:Xtop.E,hot:Xbot.G,t:'If D1 (main) and D2 (hotfix) touch <b>different lines</b> → auto-merged. <b>Same line</b> → a <b>merge conflict</b> you resolve by hand.'}
+    {show:[],main:Xmerge,nb:Xtop.E,hot:Xbot.G,t:'If the changes on <b>main</b> and <b>hotfix</b> touch <b>different lines</b> → auto-merged. <b>Same line</b> → a <b>merge conflict</b> you resolve by hand.'}
   ];
   function apply(s){
     const onset=new Set();
