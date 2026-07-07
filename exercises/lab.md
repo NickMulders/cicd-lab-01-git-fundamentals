@@ -183,7 +183,26 @@ We start with a short **guided warm-up together**, then you go solo through two 
 clone. **Do Phase 1 first** — its gate (`scripts/verify-lab.sh`) checks that `HEAD` is your focused
 commit, and Phase 2's merges and resets break that check, so it only passes before Phase 2.
 
-### Warm-up (together) — trace a commit, then stage by hunk
+### Warm-up (together) — get set up, trace a commit, then stage by hunk
+
+**Part 0 — your fork, on your machine, in VS Code (2 min).** Most of you did this before the
+session — then only steps 3–4 apply. The point: everyone in the room works from the same place.
+
+1. Make **one parent folder** for the whole series — all 8 lab repos will live side by side in it:
+   `mkdir -p ~/mustry-academy && cd ~/mustry-academy`.
+2. Fork + clone in one go: `gh repo fork mustry-academy/cicd-lab-01-git-fundamentals --clone`
+   (if you already forked, it just clones your fork). Prefer the website? Press **Fork** on
+   github.com — but you still need to clone your fork afterwards:
+   `git clone git@github.com:<your-username>/cicd-lab-01-git-fundamentals.git`.
+   Then `cd cicd-lab-01-git-fundamentals`.
+3. Check the remote: `git remote -v` must show **your username**, not `mustry-academy` — your fork
+   is where you can commit, branch and push freely.
+4. From inside the repo, open VS Code with `code .` and work from its integrated terminal
+   (`` Ctrl+` ``) from here on.
+
+> **WSL2:** clone into your Linux home (`~/…`), never `/mnt/c/…` — Git is far slower across the
+> Windows boundary and line endings get messy. `code .` from WSL automatically opens a window
+> connected to WSL.
 
 **Part 1 — trace a commit through the object graph.**
 

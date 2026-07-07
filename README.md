@@ -15,12 +15,18 @@ This is the first lab in the course. We deliberately stay out of Ignition territ
 ## Quick start
 
 ```bash
+mkdir -p ~/mustry-academy && cd ~/mustry-academy                   # one parent folder for all 8 lab repos
 gh repo fork mustry-academy/cicd-lab-01-git-fundamentals --clone   # fork to your account + clone your fork
+#   …or press "Fork" on github.com, then clone YOUR fork:
+#   git clone git@github.com:<your-username>/cicd-lab-01-git-fundamentals.git
 cd cicd-lab-01-git-fundamentals
+code .                                                             # open in VS Code (WSL: opens connected to WSL)
 python -m venv .venv && source .venv/bin/activate
 pip install -r sample-app/requirements.txt
 pytest sample-app/tests
 ```
+
+> **WSL2:** keep the folder in your Linux home (`~/…`), not `/mnt/c/…` — Git is far slower across the Windows boundary and line endings get messy.
 
 ## Lab structure
 
