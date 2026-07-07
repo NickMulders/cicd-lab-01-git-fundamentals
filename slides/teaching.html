@@ -105,6 +105,14 @@ body{
 .cmd span{font-size:13px;color:var(--txt-dim);line-height:1.4}
 .cmd span b{color:var(--txt);font-weight:600}
 
+/* vocabulary summary: side list (dark) */
+.vside{flex:1;align-self:center;max-width:460px;border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:26px 30px 20px;background:rgba(255,255,255,.03)}
+.vside .vt{font-weight:800;font-size:19px;letter-spacing:-.4px;color:#fff;margin-bottom:16px}
+.vside .vh{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:#9fb6cf;font-weight:700;margin-bottom:4px}
+.vside .vrow{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:baseline;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+.vside .vrow code{font-family:'IBM Plex Mono';font-size:13px;font-weight:600;color:var(--teal-l);white-space:nowrap}
+.vside .vrow span{font-size:12.5px;color:#c4cfde;line-height:1.35}
+
 .callout{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin-top:22px}
 .callout .lab{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--warn);font-weight:700;margin-bottom:9px}
 .callout p{font-size:14.5px;color:var(--txt-dim);line-height:1.55}
@@ -565,7 +573,7 @@ body{
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>A branch moves · a tag stays</span></div>
 </section>
 
-<!-- 12 · BASIC COMMAND VOCABULARY -->
+<!-- 14 · INSPECTING & UNDOING · git blame / git reset -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -575,44 +583,6 @@ body{
   <div class="body">
     <div class="sechead">
       <span class="num">03</span>
-      <div>
-        <div class="title">The basic command vocabulary</div>
-        <div class="lead">One line each. Now that you know what's underneath, the commands are just verbs for moving these objects and pointers around.</div>
-      </div>
-    </div>
-    <div class="cmds">
-      <div class="cmd"><code>git init</code><span>turn a plain folder into a repo (creates <b>.git/</b>).</span></div>
-      <div class="cmd"><code>git branch</code><span>list or create branches (cheap pointers to commits).</span></div>
-      <div class="cmd"><code>git clone</code><span>copy a remote repo + its full history to your machine.</span></div>
-      <div class="cmd"><code>git checkout / switch</code><span>move <b>HEAD</b> to another branch or commit.</span></div>
-      <div class="cmd"><code>git status</code><span>what's changed, staged, untracked. Run it constantly.</span></div>
-      <div class="cmd"><code>git merge</code><span>combine another branch's work into yours.</span></div>
-      <div class="cmd"><code>git add</code><span>stage a change for the next commit (into the <b>index</b>).</span></div>
-      <div class="cmd"><code>git cherry-pick</code><span>copy a single commit onto your current branch.</span></div>
-      <div class="cmd"><code>git commit</code><span>record the staged snapshot as a new commit.</span></div>
-      <div class="cmd"><code>git tag</code><span>pin a permanent name to a commit: how you mark a <b>release</b>.</span></div>
-      <div class="cmd"><code>git push / pull</code><span>send / receive commits to a remote. <b>Named now, used in later labs.</b></span></div>
-    </div>
-
-    <div class="callout" style="margin-top:20px;border-left:5px solid var(--warn);padding:14px 20px">
-      <div class="lab">Note</div>
-      <p>Most students will drive Git from <b>VS Code's Source Control panel</b>, which wraps stage, commit, branch, push and pull in buttons: the UI <b>abstracts these commands away</b>. Teach the CLI so they understand what those buttons actually <i>do</i>, but reassure them the UI handles the everyday flow; the terminal is for when it doesn't.</p>
-    </div>
-  </div>
-
-  <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>The everyday Git toolkit</span></div>
-</section>
-
-<!-- 13 · INSPECTING & UNDOING · git blame / git reset -->
-<section class="slide">
-  <div class="topbar">
-    <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
-    <div class="stage">Teaching</div>
-  </div>
-
-  <div class="body">
-    <div class="sechead">
-      <span class="num">04</span>
       <div>
         <div class="title">Inspecting &amp; undoing</div>
         <div class="lead">Two more commands you'll reach for often: one to find out <b>who</b> wrote a line, one to <b>throw work away</b>. Handle the second with care.</div>
@@ -652,7 +622,7 @@ body{
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Inspect with blame · undo with reset</span></div>
 </section>
 
-<!-- 14 · GITIGNORE -->
+<!-- 15 · GITIGNORE -->
 <section class="slide">
   <div class="topbar">
     <div class="brandrow"><img class="logo-img" src="logos/OriginalDark.png" alt="Mustry Solutions"></div>
@@ -661,7 +631,7 @@ body{
 
   <div class="body">
     <div class="sechead">
-      <span class="num">05</span>
+      <span class="num">04</span>
       <div>
         <div class="title"><span class="mono" style="font-size:34px">.gitignore</span>: what <em style="font-style:italic">not</em> to track</div>
         <div class="lead">Git tracks <b>everything</b> by default. <span class="mono">.gitignore</span> is how you tell it what to leave alone.</div>
@@ -681,7 +651,44 @@ body{
   <div class="foot"><span>Mustry Academy · CI/CD for Ignition</span><span>Open this repo's own .gitignore</span></div>
 </section>
 
-<!-- 14 · IN THE LAB (closing) -->
+<!-- 16 · GIT VOCABULARY · SUMMARY (visual) -->
+<section class="slide dark">
+  <div class="topbar">
+    <div class="on-dark brandrow"><img class="logo-img" src="logos/OriginalLight.png" alt="Mustry Solutions"></div>
+    <div class="stage on-dark">Teaching · recap</div>
+  </div>
+
+  <div class="stage-wrap">
+    <div class="vtitle">Your Git vocabulary</div>
+    <p class="lead" style="text-align:center;margin:6px auto 0;color:#c4cfde">The whole morning on one slide. Top: how your <b style="color:#fff">files</b> become a commit. Bottom: where <b style="color:#fff">commits</b> live and travel. The rest of the vocabulary on the right.</p>
+    <div style="flex:1;display:flex;gap:44px;min-height:0;margin-top:8px;align-items:stretch">
+      <div class="viz" id="viz-vocab" style="flex:1.5"></div>
+      <div class="vside reveal">
+        <div class="vt">The rest of the vocabulary</div>
+        <div class="vh">Start</div>
+        <div class="vrow"><code>git init</code><span>turn a plain folder into a repo (creates <span class="mono" style="color:var(--peri2)">.git/</span>)</span></div>
+        <div class="vh" style="margin-top:22px">Inspect — always safe</div>
+        <div class="vrow"><code>git status</code><span>what's changed &amp; what's staged</span></div>
+        <div class="vrow"><code>git blame</code><span>who last touched each line, and when</span></div>
+        <div class="vh" style="margin-top:22px">Move the pointers</div>
+        <div class="vrow"><code>git branch</code><span>list / create branches</span></div>
+        <div class="vrow"><code>git checkout / switch</code><span>move HEAD to another branch</span></div>
+        <div class="vrow"><code>git merge</code><span>combine another branch's work into yours</span></div>
+        <div class="vrow"><code>git rebase</code><span>replay your commits onto a new base</span></div>
+        <div class="vrow"><code>git cherry-pick</code><span>copy a single commit onto your branch</span></div>
+        <div class="vrow"><code>git tag</code><span>pin a permanent name to a commit</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <span class="lead-step" id="vocab-step">Everything from this morning, one piece at a time.</span>
+    <button class="btn" data-act="back">◀ Back</button>
+    <button class="btn primary" data-act="next">Next ▶</button>
+  </div>
+</section>
+
+<!-- 17 · IN THE LAB (closing) -->
 <section class="slide dark">
   <div class="topbar">
     <div class="on-dark brandrow"><img class="logo-img" src="logos/OriginalLight.png" alt="Mustry Solutions"></div>
@@ -1194,8 +1201,105 @@ function bindControls(slideEl,ctrl){
   controllers.remote={max:steps.length-1,render:apply};
 })();
 
+/* ---------- slide 16: vocabulary summary (step-through) ---------- */
+(function(){
+  const svg=el('svg',{viewBox:'0 0 950 760',preserveAspectRatio:'xMidYMid meet'},document.getElementById('viz-vocab'));
+  defsArrow(svg);
+  const MONO="'IBM Plex Mono'",SANS="'Libre Franklin'";
+  // reveal layers, in step order
+  const gWT=el('g',{class:'vshow'},svg), gStage=el('g',{class:'vshow'},svg),
+        gCommit=el('g',{class:'vshow'},svg), gReset=el('g',{class:'vshow'},svg),
+        gRemote=el('g',{class:'vshow'},svg);
+  function T(p,x,y,s,fill,size,opts={}){
+    const a={x,y,'text-anchor':opts.anchor||'middle',fill,'font-family':opts.sans?SANS:MONO,'font-weight':opts.w||600,'font-size':size};
+    if(opts.ls)a['letter-spacing']=opts.ls;
+    const t=el('text',a,p);t.textContent=s;return t;
+  }
+  function box(p,cx,w,y,h,remote){
+    el('rect',{x:cx-w/2,y,width:w,height:h,rx:18,fill:'rgba(255,255,255,.04)',stroke:remote?'var(--peri2)':'var(--teal)','stroke-width':2.5},p);
+  }
+  /* ===== part 1: the files ===== */
+  el('rect',{x:32,y:24,width:886,height:296,rx:20,fill:'none',stroke:'rgba(255,255,255,.16)','stroke-width':1.5,'stroke-dasharray':'7 7'},gWT);
+  T(gWT,52,54,'FILES','#9fb6cf',11.5,{anchor:'start',ls:2});
+  box(gWT,225,310,88,200);
+  T(gWT,225,72,'working tree','#fff',22,{sans:1,w:800});
+  [['📄 main.py  ●',150],['📄 test_app.py  ●',184],['📄 README.md',218]]
+    .forEach(([s,y])=>T(gWT,105,y,s,'#dbe6f5',14.5,{anchor:'start',w:500}));
+  T(gWT,225,262,'your files on disk','#9fb6cf',12);
+  box(gStage,715,310,88,200);
+  T(gStage,715,72,'staging area','#fff',22,{sans:1,w:800});
+  [['+ main.py',158],['+ test_app.py',192]].forEach(([s,y])=>T(gStage,600,y,s,'var(--teal-l)',14.5,{anchor:'start'}));
+  T(gStage,715,262,'what the next commit will contain','#9fb6cf',12);
+  el('line',{x1:380,y1:188,x2:550,y2:188,stroke:'var(--teal-l)','stroke-width':3,'marker-end':'url(#arrow)'},gStage);
+  T(gStage,470,165,'git add','var(--teal-l)',16);
+  /* ===== part 2: the commits (repo + the commit bridge) ===== */
+  el('rect',{x:32,y:388,width:886,height:330,rx:20,fill:'none',stroke:'rgba(255,255,255,.16)','stroke-width':1.5,'stroke-dasharray':'7 7'},gCommit);
+  T(gCommit,52,418,'COMMITS','#9fb6cf',11.5,{anchor:'start',ls:2});
+  box(gCommit,285,430,430,260);
+  T(gCommit,92,464,'local repo','#fff',22,{sans:1,w:800,anchor:'start'});
+  T(gCommit,92,662,'.git/ — the full history','#9fb6cf',11.5,{anchor:'start'});
+  function chain(p,cx,color,cy,dx,r){
+    [-dx,0,dx].forEach((d,i)=>{
+      const x=cx+d;
+      el('circle',{cx:x,cy,r,fill:'transparent',stroke:color,'stroke-width':2.4},p);
+      T(p,x,cy+1,String.fromCharCode(65+i),'#fff',r>=19?15:13,{sans:1,w:700});
+      if(i>0)el('line',{x1:x-dx+r,y1:cy,x2:x-r-10,y2:cy,stroke:'#fff','stroke-width':2.4,'marker-end':'url(#arrow)'},p);
+    });
+  }
+  chain(gCommit,195,'var(--teal)',508,78,19);
+  T(gCommit,302,512,'main','var(--teal-l)',13,{sans:1,anchor:'start'});
+  // commit bridge: staged files → commit C
+  el('path',{d:'M715,294 L715,354 L273,354 L273,479',fill:'none',stroke:'var(--teal-l)','stroke-width':3,'stroke-linejoin':'round','marker-end':'url(#arrow)'},gCommit);
+  T(gCommit,500,340,'git commit','var(--teal-l)',16);
+  // what C contains: one clean snapshot card, linked from C
+  el('line',{x1:287,y1:521,x2:322,y2:556,stroke:'var(--teal)','stroke-width':2},gCommit);
+  el('rect',{x:316,y:552,width:160,height:96,rx:10,fill:'#1a2c46',stroke:'rgba(255,255,255,.12)','stroke-width':1.2},gCommit);
+  T(gCommit,330,574,'C = A FULL SNAPSHOT','#9fb6cf',9.5,{anchor:'start',ls:1.2});
+  el('line',{x1:330,y1:584,x2:462,y2:584,stroke:'rgba(255,255,255,.12)','stroke-width':1},gCommit);
+  [['main.py',604],['test_app.py',622],['README.md',640]].forEach(([s,y])=>{
+    el('circle',{cx:336,cy:y-3.5,r:2.5,fill:'var(--teal)'},gCommit);
+    T(gCommit,346,y,s,'#dbe6f5',10.5,{anchor:'start'});
+  });
+  /* reset --hard: main glides back down the chain */
+  el('path',{d:'M273,532 Q195,584 117,532',fill:'none',stroke:'#f0b765','stroke-width':2.6,'marker-end':'url(#arrow)'},gReset);
+  T(gReset,195,614,'git reset --hard','#f0b765',13);
+  T(gReset,195,634,'move main back · discard changes','#f0b765',10.5);
+  /* ===== remotes: origin + push / pull / clone ===== */
+  box(gRemote,790,200,430,260,true);
+  T(gRemote,702,464,'origin','#fff',22,{sans:1,w:800,anchor:'start'});
+  chain(gRemote,790,'var(--peri2)',530,65,15);
+  T(gRemote,855,570,'main','var(--teal-l)',12,{sans:1});
+  T(gRemote,790,650,'the shared copy (GitHub)','#9fb6cf',11);
+  function flow(y,rtl,label,sub,color){
+    const x1=rtl?690:500,x2=rtl?510:680;
+    el('line',{x1,y1:y,x2,y2:y,stroke:color,'stroke-width':3,'marker-end':'url(#arrow)'},gRemote);
+    T(gRemote,595,y-20,label,color,14);
+    T(gRemote,595,y+22,sub,'#9fb6cf',10);
+  }
+  flow(488,false,'git push','send your new commits up','var(--teal-l)');
+  flow(562,true,'git pull','update a repo you already have','var(--peri2)');
+  flow(636,true,'git clone','day one — copy the whole repo','var(--peri2)');
+  /* ===== step controller ===== */
+  const side=slides[15].querySelector('.vside');
+  const lead=slides[15].querySelector('#vocab-step');
+  const layers=[gWT,gStage,gCommit,gReset,gRemote];
+  const steps=[
+    'Start in the <b>working tree</b>: the files on your disk. Two files have edits (●).',
+    '<span class="mono">git add</span> stages exactly the changes you pick — the <b>staging area</b> is the draft of your next commit.',
+    '<span class="mono">git commit</span> turns what\'s staged into <b>commit C</b>: it points to a <b>tree</b> — a full snapshot of <b>all</b> your files. <b>main</b> moves to C.',
+    'Regret it? <span class="mono">git reset --hard</span> moves <b>main</b> back to an earlier commit — and throws your changes away.',
+    '<b>origin</b> is just another copy of the repo: <span class="mono">clone</span> it once, then <span class="mono">push</span> yours up and <span class="mono">pull</span> theirs down.',
+    'The rest of the vocabulary: safe <b>inspection</b> and the <b>pointer verbs</b>. And <span class="mono">git init</span> creates all of this in the first place.'
+  ];
+  controllers.vocab={max:5,render(s){
+    layers.forEach((g,i)=>reveal(g,i<=s));
+    side.classList.toggle('show',s>=5);
+    lead.innerHTML=steps[s];
+  }};
+})();
+
 /* ============ wire controllers to their slides + reset on entry ============ */
-const ctrlBySlide={3:'blob',4:'tree',5:'commit',6:'branch',7:'head',8:'merge',9:'rebase',10:'cherry',11:'remote'};
+const ctrlBySlide={3:'blob',4:'tree',5:'commit',6:'branch',7:'head',8:'merge',9:'rebase',10:'cherry',11:'remote',15:'vocab'};
 const bound={};
 for(const idx in ctrlBySlide){const name=ctrlBySlide[idx];bound[idx]=bindControls(slides[idx],controllers[name]);}
 // reset a slide's animation when you scroll onto it
