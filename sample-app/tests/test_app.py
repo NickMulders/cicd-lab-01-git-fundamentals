@@ -19,3 +19,7 @@ def test_farewell_uses_name():
 
 def test_farewell_shout():
     assert farewell("Ada", shout=True) == "GOODBYE, ADA!"
+
+
+def test_greet_handles_empty_string():
+    assert greet("") == "Hello, !"

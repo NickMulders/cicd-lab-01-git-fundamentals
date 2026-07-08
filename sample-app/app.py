@@ -2,6 +2,7 @@
 
 
 def greet(name: str, shout: bool = False) -> str:
+    """Return a friendly greeting for `name`."""
     message = f"Hello, {name}!"
     return message.upper() if shout else message
 
