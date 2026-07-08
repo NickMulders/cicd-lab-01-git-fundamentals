@@ -1,3 +1,6 @@
+## This is an Edit made to create a conflict
+
+
 # Lab 01 — Git Fundamentals
 
 Day 1 of the *CI/CD for Ignition* masterclass.
